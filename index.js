@@ -103,6 +103,20 @@ app.get('/api/onlyLetters', (req, res) => {
   res.json({ result });
 });
 
+// POST route for excludeTheseCharacters
+app.post("/api/excludeTheseCharacters", (req, res) => {
+  const { excludeTheseCharacters, inputString } = req.body;
+
+  if (!excludeTheseCharacters || !inputString) {
+    return res.status(400).json({
+      error: "excludeTheseCharacters and inputString are required.",
+    });
+  }
+
+  const result = ValidationFunctions.excludeTheseCharacters(inputString, excludeTheseCharacters);
+  res.json({ result });
+});
+
 app.get('/', (req, res) => {
   res.render('index')
 })
