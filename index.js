@@ -356,6 +356,17 @@ app.post('/api/isBinaryString', (req, res) => {
   return res.json({ result });
 });
 
+app.post('/api/isCSV', (req, res) => {
+  const { inputString } = req.body;
+
+  if (!inputString) {
+    return res.status(400).json({ error: 'inputString is required.' });
+  }
+
+  const result = ValidationFunctions.isCSV(inputString);
+  res.json({ result });
+});
+
 app.get('/', (req, res) => {
   res.render('index');
 });
