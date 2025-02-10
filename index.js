@@ -1,10 +1,12 @@
 const express = require('express');
-const { rateLimit } = require("express-rate-limit");
+const { rateLimit } = require('express-rate-limit');
 const app = express();
 const port = process.env.PORT || 3000;
-const cors = require('cors')
+const cors = require('cors');
+const axios = require('axios');
 const ValidationFunctions = require('./validationFunctions');
 const { urlUtils } = require("./utils/urlUtils");
+const { handleAxiosError } = require("./utils/axios");
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 
 // Load environment variables
@@ -112,6 +114,9 @@ app.set('view engine', 'pug');
  *   "error": "Input string required as a parameter."
  * }
  */
+
+const requiredParameterResponse = 'Input string required as a parameter.';
+
 app.post('/api/isEmailAddress', (req, res) => {
   const { inputString } = req.body;
 
@@ -354,6 +359,30 @@ app.post('/api/isBinaryString', (req, res) => {
   }
   const result = ValidationFunctions.isBinaryString(inputString);
   return res.json({ result });
+});
+
+app.post('/api/isCountry', async (req, res) => {
+  const inputString = req.body.inputString;
+  
+  if(!inputString) {
+    return res.status(400).json({ error: requiredParameterResponse });
+  }
+
+  try{
+    const reply = await axios.post('https://countriesnow.space/api/v0.1/countries/currency', {
+       "country": inputString
+      });
+
+    return res.json({ result: reply.data.error === false });
+  }
+  catch(error){
+    if (error.response && error.response.status === 404) {
+      return res.json({ result: false });
+    }
+
+    const error_details = handleAxiosError(error);
+    return res.json({ error: error_details });
+  }
 });
 
 app.get('/', (req, res) => {

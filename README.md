@@ -80,11 +80,11 @@ Create new issues for features, innovation ideas, bugs, or enhancements. If you 
 
 Using `node`  
 ```bash
-node index.js  // Or npm start
+node index.js  // Or npm start Or npm run start
 ```
-Or if you want your backend changes to refresh automatically you can use `nodemon`
+Or if you want your backend changes to refresh automatically you can use "nodemon" ( Development Mode )
 ```bash
-nodemon index.js
+nodemon index.js // Or npm run dev
 ```
 
 ## Documentation
