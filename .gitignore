@@ -57,6 +57,9 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
+# Prettier config
+.prettierrc.json
+
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/

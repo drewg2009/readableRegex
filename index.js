@@ -1,5 +1,6 @@
 const express = require('express');
 const { rateLimit } = require("express-rate-limit");
+const csv = require('csv-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require('cors')
@@ -354,6 +355,33 @@ app.post('/api/isBinaryString', (req, res) => {
   }
   const result = ValidationFunctions.isBinaryString(inputString);
   return res.json({ result });
+});
+
+app.post('/api/isCSV', (req, res) => {
+  const { inputString } = req.body;
+
+  if (!inputString) {
+    return res.status(400).json(requiredParameterResponse);
+  }
+
+  const records = [];
+  const csvParser = csv({ headers: false });
+
+  csvParser.on('data', (row) => {
+    records.push(row);
+  });
+
+  csvParser.on('end', () => {
+    res.json({ result: true });
+  });
+
+  csvParser.on('error', (err) => {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to parse CSV data' });
+  });
+
+  csvParser.write(inputString);
+  csvParser.end();
 });
 
 app.get('/', (req, res) => {
