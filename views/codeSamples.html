@@ -1,11 +1,37 @@
 Example call using Javascript
 <pre>
     <code>
+User can use either of the APIs (AI based or normal manual regex based)
 try {
     const response = await fetch("https://readable-regex-8d81b79167bf.herokuapp.com/api/onlyNumbers", {
         method: 'POST',
         body: JSON.stringify({
             inputString: "1234abc"
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const json = await response.json()
+    const transformedString = json.result
+    document.querySelector('#responseBox').textContent = transformedString // 1234
+
+}
+catch (exception) {
+    alert('Error executing regex, try again later! Contact developer for support')
+    throw exception
+}
+</code>
+    <code>
+For AI based json responses, user can use the below endpoint requiring two params
+-inputString
+-fieldToValidate(what validation need to be performed)
+try {
+    const response = await fetch("https://readable-regex-8d81b79167bf.herokuapp.com/api/isField", {
+        method: 'POST',
+        body: JSON.stringify({
+            inputString: "sub@example.com"
+            fieldToValidate:"email"
         }),
         headers: {
             "Content-Type": "application/json"

@@ -6,6 +6,7 @@ const cors = require('cors')
 const ValidationFunctions = require('./validationFunctions');
 const { urlUtils } = require("./utils/urlUtils");
 const expressJSDocSwagger = require('express-jsdoc-swagger');
+const fetchAiGeneratedContent = require('./runGeminiPrompt');
 const requiredParameterResponse = 'Input string required as a parameter.'
 
 // Load environment variables
@@ -76,6 +77,7 @@ app.use(cors())
 app.use(express.json());
 app.set('view engine', 'pug');
 
+
 /**
  * Basic request
  * @typedef {object} BasicRequest
@@ -121,6 +123,58 @@ app.set('view engine', 'pug');
  * @property {string} inputString.required - The URL string to validate
  * @property {boolean} [connectToUrlTest] - Optionally test if the URL is reachable
  */
+
+/**
+ * POST /api/isField
+ * @summary Returns true/false based on the input string and fieldToValidate
+ * @param {BasicRequest} request.body.required
+ * @return {BasicResponse} 200 - Success response
+ * @return {BadRequestResponse} 400 - Bad request response
+ * @example request - test
+ * {
+ *   "inputString": "test@gmail.com"
+ * }
+ * @example response - 200 - example payload
+ * {
+ *    "result": true,
+ *    "explanation": "The email address 'test@gmail.com' follows the standard format: local-part@domain.  It contains a username ('test'), an '@' symbol, and a domain name ('gmail.com')."
+  }
+ * @example response - 400 - example
+ * {
+ *   "error": "Input string/FieldTovalidate required as a parameter."
+ * }
+ */
+app.post('/api/isField', async (req, res) => {
+  const { inputString, fieldToValidate } = req.body;
+
+  if (!inputString || !fieldToValidate) {
+    return res.status(400).json({ error: requiredParameterResponse });
+  }
+  const instructionToLLM = `Can you return true or false if this field '${fieldToValidate}' is valid? Here is the value for this field: '${inputString}'. Can you only return this in a valid JSON string so I can parse it without the text formatting for JSON, and don't write anything else like json or quotes,just the json result) where the 'result' property will be true or false, and the 'explanation' will be the reason for why it's true or false?
+  Note:treat special characters(.,@/-+ etc) and digits as Lowercase
+  Note:Consider date formats of all over the world
+  "// YYYY-MM-DD
+  // MM/DD/YYYY or DD/MM/YYYY
+  // YYYY/MM/DD
+  // DD-MM-YYYY or MM-DD-YYYY
+  // YYYY.MM.DD
+  // DD.MM.YYYY or MM.DD.YYYY
+  // YYYYMMDD
+  // YYYY-MM-DD HH:mm:ss"
+  Note:Consider strings with only 0 and 1 to be binary
+  Note:In case of phone number take into consideration all phone number formats all over the world
+  Note:In case of zip code take into consideration zip codes all over the world
+  `;
+  try {
+    const aiJsonResponse = await fetchAiGeneratedContent(instructionToLLM)
+    const jsonResult = JSON.parse(aiJsonResponse)// get the string returned from LLM and extract only the JSON part from it
+    res.json(jsonResult)
+  }
+  catch (e) {
+    res.json({error: e.message})
+  }
+
+});
 
 /**
  * POST /api/isEmailAddress

@@ -1,6 +1,7 @@
 async function getResponse() {
-  const endpoint = document.querySelector('select[name="endpoint"]').value;
   const inputString = document.querySelector("#inputString").value;
+  const fieldToValidate = document.querySelector("#fieldToValidate").value;
+  const endpoint = fieldToValidate.length?"isField":document.querySelector('select[name="endpoint"]').value;
 
   // Use window.location.origin to get the base URL
   const baseUrl = window.location.origin;
@@ -10,6 +11,7 @@ async function getResponse() {
       method: "POST",
       body: JSON.stringify({
         inputString: inputString,
+        fieldToValidate: fieldToValidate.slice(0, 100), // Limit to 100 characters
       }),
       headers: {
         "Content-Type": "application/json",
