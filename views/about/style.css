@@ -1,0 +1,116 @@
+/* Import Google Fonts for modern typography */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  gap: 20px;
+}
+#main-header {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Comparison Container Styling */
+.comparison-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.comparison-box-parrent {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: start;
+}
+.comparison-box {
+  width: 48%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+/* Traditional Side */
+.traditional {
+  background-color: #e0e0e0; /* Light gray for traditional side */
+}
+/* API Side */
+.api-side {
+  background-color: #e8f9f3; /* Light green for API side */
+  border: 2px solid #2ecc71; /* Green border to make it stand out */
+}
+
+/* Headings Styling */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Encouragement */
+.encouragement {
+  max-width: 1200px; /* Limit the width to make it more readable */
+  text-align: justify; /* Justify the text for even spacing */
+  font-size: 18px;
+  line-height: 1.6; /* Add line height for better readability */
+  color: #333;
+  margin: 0 auto 40px; /* Center it and add space below */
+  padding: 0 20px; /* Add padding for responsiveness */
+}
+
+/* Code Samples Styling */
+pre {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Box Description */
+.description {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .comparison-box-parrent {
+    flex-direction: column;
+    align-items: center;
+  }
+  .comparison-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .comparison-box {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

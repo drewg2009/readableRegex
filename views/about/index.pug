@@ -1,0 +1,122 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Readable Regex API - Comparison
+    style
+      include style.css
+  body
+    h1(id="main-header") Discover the Simplicity and Power of Regex API 
+    .encouragement
+      p
+        | Clean and efficient code is vital for scalable development. Traditional validation methods using regex can lead to messy, hard-to-manage code.
+      P
+        | The Readable Regex API simplifies this process, making code more readable and maintainable.
+      br
+      p
+        | The API offers easier maintenance and clearer code, saving time and reducing errors, while also improving performance. It’s a powerful tool for developers who want to focus on building products, not wrestling with complex regex.
+
+    .comparison-container
+      h1 Traditional Regex vs Readable Regex API
+      .comparison-box-parrent
+        .comparison-box.traditional
+          .description
+            p In the traditional approach, regular expressions are used to define complex patterns that require manual string manipulation. While flexible, this can lead to hard-to-read code, especially for non-experts.
+          pre(class='language-javascript').
+            function onlySpecialCharacters(value) {
+              return value.replace(/[a-zA-Z0-9]/g, '');
+            }
+            onlySpecialCharacters("Hello@World!"); // Output: "@!"
+
+        .comparison-box.api-side
+          .description
+            p With the Readable Regex API, you simply call an endpoint, and the server handles the pattern matching and response. The code is easier to read, maintain, and extend.
+          pre(class='language-javascript').
+            fetch('/api/onlySpecialCharacters', {
+              input: "Hello@World!"
+            })
+
+    .comparison-container
+      h1 Postal Code Validation
+      .comparison-box-parrent
+        .comparison-box.traditional
+          .description
+            p Checking postal codes with regex can quickly become tedious, especially when dealing with multiple formats across countries.
+          pre(class='language-javascript').
+            function isZipCode(value, country) {
+              const patterns = {
+                US: /^\d{5}(-\d{4})?$/,
+                UK: /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i
+              };
+              return patterns[country]?.test(value) ?? false;
+            }
+            isZipCode("12345", "US"); // Output: true
+
+        .comparison-box.api-side
+          .description
+            p The API allows you to handle different postal code formats easily, without complex regex patterns in your code.
+          pre(class='language-javascript').
+            fetch('/api/isZipCode', {
+              input: "12345", country: "US"
+            })
+
+    .comparison-container
+      h1 URL Validation
+      .comparison-box-parrent
+        .comparison-box.traditional
+          .description
+            p Validating a URL with regex can result in a long, complicated expression.
+          pre(class='language-javascript').
+            function isUrl(value) {
+              return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/.test(value);
+            }
+            isUrl("https://example.com"); // Output: true
+
+        .comparison-box.api-side
+          .description
+            p With the API, you don't need to deal with the complexities of regex. Just pass the URL to the server, and it handles the validation.
+          pre(class='language-javascript').
+            fetch('/api/isUrl', {
+              input: "https://example.com"
+            })
+
+    .comparison-container
+      h1 Date Validation
+      .comparison-box-parrent
+        .comparison-box.traditional
+          .description
+            p Date validation with regex can be quite complex, especially if you're handling multiple date formats.
+          pre(class='language-javascript').
+            function isDate(value) {
+              return !isNaN(Date.parse(value));
+            }
+            isDate("2024-02-18"); // Output: true
+
+        .comparison-box.api-side
+          .description
+            p Using the API, you can easily validate dates by sending the input and receiving a response from the server.
+          pre(class='language-javascript').
+            fetch('/api/isDate', {
+              input: "2024-02-18"
+            })
+
+    .comparison-container
+      h1 Email Validation
+      .comparison-box-parrent
+        .comparison-box.traditional
+          .description
+            p Validating emails with regex is tricky and requires a precise pattern.
+          pre(class='language-javascript').
+            function isValidEmail(email) {
+              return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+            isValidEmail("test@example.com"); // Output: true
+
+        .comparison-box.api-side
+          .description
+            p The API simplifies email validation and removes the complexity of regular expressions.
+          pre(class='language-javascript').
+            fetch('/api/validate-email', {
+              input: "test@example.com"
+            })
