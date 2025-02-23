@@ -16,14 +16,14 @@
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-jsdoc-swagger": "^1.8.0",
     "express-rate-limit": "^7.5.0",
     "install": "^0.13.0",
     "npm": "^11.1.0",
-    "pug": "^3.0.3",
-    "csv-parser": "^3.2.0"
+    "pug": "^3.0.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",

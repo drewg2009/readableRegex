@@ -1,3 +1,4 @@
+const axios = require('axios');
 module.exports = class ValidationFunctions {
   // Function to remove all non-numeric characters
   static onlyNumbers(str) {
@@ -140,4 +141,35 @@ module.exports = class ValidationFunctions {
     return inputString.includes(stringContained)
   }
 
+  static async isCountry(inputString) {
+    try {
+      const reply = await axios.post('https://countriesnow.space/api/v0.1/countries/currency', {
+        "country": inputString
+      });
+
+      return reply.data.error === false;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return false;
+      }
+
+      const error_details = handleAxiosError(error);
+      throw new Error(error_details);
+    }
+  }
+
 }
+
+const handleAxiosError = (error) => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    return `Error ${error.response.status}: ${error.response.data.message}`;
+  } else if (error.request) {
+    // The request was made but no response was received
+    return 'No response received from the server';
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    return `Error: ${error.message}`;
+  }
+};
