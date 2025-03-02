@@ -401,6 +401,21 @@ module.exports = class ValidationFunctions {
     return inputString.includes(stringContained)
   }
 
+  /**
+   * Checks whether the given `inputString` is a valid country name.
+   *
+   * Sends a request to an external API to verify if the provided `inputString` matches a recognized country.
+   *
+   * @param {string} inputString - The name of the country to validate.
+   * @returns {Promise<boolean>} - Resolves to `true` if `inputString` is a valid country, otherwise `false`.
+   *
+   * @throws {Error} - Throws an error if the request fails for reasons other than a 404 response.
+   *
+   * @example
+   * await isCountry("France"); // Returns: true
+   * await isCountry("Atlantis"); // Returns: false
+   * await isCountry(""); // Returns: false
+   */
   static async isCountry(inputString) {
     try {
       const reply = await axios.post('https://countriesnow.space/api/v0.1/countries/currency', {
@@ -417,7 +432,6 @@ module.exports = class ValidationFunctions {
       throw new Error(error_details);
     }
   }
-
 }
 
 const handleAxiosError = (error) => {
